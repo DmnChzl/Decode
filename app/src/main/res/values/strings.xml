@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2015 Damien Chazoule
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<resources>
+
+    <string name="app_name" translatable="false">Decode</string>
+    <string name="about">About</string>
+    <string name="autofocus">AutoFocus</string>
+    <string name="autofocus_on">AutoFocus enabled</string>
+    <string name="autofocus_off">AutoFocus disabled</string>
+	<string name="cancel">Cancel</string>
+    <string name="copyright" translatable="false">Copyright &#169; 2015 Damien Chazoule</string>
+    <string name="developer">Decode for Android devices is built peacefully using open source software.</string>
+    <string name="flash">No LED (Flash) detects !</string>
+    <string name="format">Choose format(s)</string>
+	<string name="hello">Hello</string>
+    <string name="message">Decode for Android is a standalone barcode scanner developed in the margins of my study project at the <b>Software Engineering Manager</b> training. \n\nThis application uses the ZBar library for recognizing barcodes. \n\nEnjoy ;)</string>
+    <string name="okay" translatable="false">OK</string>
+    <string name="result">Result</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="url" translatable="false">https://github.com/MrDoomy/Decode</string>
+
+</resources>
