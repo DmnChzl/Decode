@@ -20,12 +20,7 @@ package com.doomy.decode;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.ContextThemeWrapper;
-import android.view.Window;
-import android.view.WindowManager;
 
 public class MainActivity extends Activity {
 
@@ -51,7 +46,6 @@ public class MainActivity extends Activity {
         mValue = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("mValue", true);
 
         if (mValue) {
-            // ContextThemeWrapper mThemeWrapper = new ContextThemeWrapper(MainActivity.this, R.style.MaterialDialog);
             AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(MainActivity.this, Utils.setThemeDialog());
 
             mAlertDialog.setTitle(getString(R.string.hello));

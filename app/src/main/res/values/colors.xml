@@ -22,9 +22,9 @@
     <color name="green">#4caf50</color> <!-- Green 500 -->
     <color name="greenDark">#388e3c</color> <!-- Green 700 -->
     <color name="greyEmpty">#fafafa</color> <!-- Grey 50 -->
+    <color name="greyMaterialLight">#eeeeee</color> <!-- Grey 200 -->
     <color name="grey">#9e9e9e</color> <!-- Grey 500 -->
     <color name="greyDark">#616161</color> <!-- Grey 700 -->
-    <color name="material">#424242</color> <!-- Material -->
-    <color name="materialLight">#eeeeee</color> <!-- Material Light -->
+    <color name="greyMaterialDark">#424242</color> <!-- Grey 800 -->
 
 </resources>

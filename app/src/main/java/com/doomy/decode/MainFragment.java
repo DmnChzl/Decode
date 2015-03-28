@@ -32,7 +32,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -246,7 +245,6 @@ public class MainFragment extends Fragment implements ZBarScannerView.ResultHand
             }
         });
 
-        // ContextThemeWrapper mThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.MaterialDialog);
         AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(getActivity(), Utils.setThemeDialog());
 
         mAlertDialog.setTitle(getString(R.string.about));

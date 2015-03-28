@@ -24,7 +24,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.ContextThemeWrapper;
 
 import com.doomy.zbar.BarcodeFormat;
 
@@ -72,10 +71,9 @@ public class FormatDialogFragment extends DialogFragment {
             i++;
         }
 
-        // ContextThemeWrapper mThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.MaterialDialog);
         AlertDialog.Builder mAlertBuilder = new AlertDialog.Builder(getActivity(), Utils.setThemeDialog());
 		
-        mAlertBuilder.setTitle(R.string.format)
+        mAlertBuilder.setTitle(R.string.choose_format)
                 .setMultiChoiceItems(mFormats, mCheckedIndices,
                         new DialogInterface.OnMultiChoiceClickListener() {
                             @Override

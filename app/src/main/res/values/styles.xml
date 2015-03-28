@@ -25,7 +25,7 @@
     </style>
 
     <style name="HoloDialog" parent="android:Theme.Holo.Light.Dialog">
-        <item name="android:windowBackground">@color/materialLight</item>
+        <item name="android:windowBackground">@color/greyMaterialLight</item>
     </style>
 
     <style name="MaterialTheme" parent="android:Theme.Material.Light.DarkActionBar">

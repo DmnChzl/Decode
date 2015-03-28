@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -66,16 +65,15 @@ public class ResultDialogFragment extends DialogFragment {
             SpannableString mSpannable = new SpannableString(mMessage);
             Linkify.addLinks(mSpannable, Linkify.WEB_URLS);
             mTextViewContent.setText(mSpannable);
-            mTextViewContent.setLinkTextColor(getResources().getColor(R.color.material));
+            mTextViewContent.setLinkTextColor(getResources().getColor(R.color.greyMaterialDark));
             mTextViewContent.setMovementMethod(LinkMovementMethod.getInstance());
         } else {
             mTextViewContent.setText(mMessage);
-            mTextViewContent.setTextColor(getResources().getColor(R.color.material));
+            mTextViewContent.setTextColor(getResources().getColor(R.color.greyMaterialDark));
         }
 
         mTextViewFormat.setText(mTitle);
 
-        // ContextThemeWrapper mThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.MaterialDialog);
         AlertDialog.Builder mAlertBuilder = new AlertDialog.Builder(getActivity(), Utils.setThemeDialog());
         
 		mAlertBuilder.setTitle(getString(R.string.result))
