@@ -20,6 +20,19 @@ This includes features like :
 - com.getbase:floatingactionbutton:1.9.0
 - com.google.zxing:core:3.2.0
 
+#QR Code
+
+<a href="https://play.google.com/store/apps/details?id=com.doomy.decode">
+  <img alt="QR Code"
+       src="https://raw.githubusercontent.com/MrDoomy/Decode/master/dev/images/qrcode.png" />
+</a>
+
+#Screenshots
+
+![Image](https://raw.githubusercontent.com/MrDoomy/Decode/master/dev/screenshots/hammerhead_1_small.png)
+![Image](https://raw.githubusercontent.com/MrDoomy/Decode/master/dev/screenshots/hammerhead_2_small.png)
+![Image](https://raw.githubusercontent.com/MrDoomy/Decode/master/dev/screenshots/flo_1_small.png)
+
 #ZXing
 
 ZXing allows recognition of barcodes. This library is fully open source. ZXing supports formats :
