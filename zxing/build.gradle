@@ -19,10 +19,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':core')
-    compile files('libs/armeabi-v7a.jar')
-    compile files('libs/armeabi.jar')
-    compile files('libs/x86.jar')
-    compile files('libs/zbar.jar')
+    compile 'com.google.zxing:core:3.2.0'
+
 }

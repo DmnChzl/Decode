@@ -54,4 +54,54 @@ public class Utils {
         }
         return mTheme;
     }
+
+    /**
+     * Rename the barcode format name.
+     *
+     * @return The new name of the barcode format.
+     */
+    public static String renameFormat(String mFormat) {
+        switch (mFormat) {
+            case "AZTEC" :
+                mFormat = "Aztec";
+                break;
+            case "UPC_A" :
+                mFormat = "UPC A";
+                break;
+            case "UPC_E" :
+                mFormat = "UPC E";
+                break;
+            case "EAN_8" :
+                mFormat = "EAN 8";
+                break;
+            case "EAN_13" :
+                mFormat = "EAN 13";
+                break;
+            case "RSS_14" :
+                mFormat = "RSS 14";
+                break;
+            case "CODE_39" :
+                mFormat = "Code 39";
+                break;
+            case "CODE_93" :
+                mFormat = "Code 93";
+                break;
+            case "CODE_128" :
+                mFormat = "Code 128";
+                break;
+            case "CODABAR" :
+                mFormat = "Codabar";
+                break;
+            case "QR_CODE" :
+                mFormat = "QR Code";
+                break;
+            case "DATA_MATRIX" :
+                mFormat = "Data Matrix";
+                break;
+            case "PDF_417" :
+                mFormat = "PDF 417";
+                break;
+        }
+        return mFormat;
+    }
 }

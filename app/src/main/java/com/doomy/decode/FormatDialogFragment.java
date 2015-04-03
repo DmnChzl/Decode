@@ -17,15 +17,18 @@
 
 package com.doomy.decode;
 
-import java.util.ArrayList;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.widget.Switch;
 
-import com.doomy.zbar.BarcodeFormat;
+import com.google.zxing.BarcodeFormat;
+
+import com.doomy.zxing.ZXingScannerView;
+
+import java.util.ArrayList;
 
 public class FormatDialogFragment extends DialogFragment {
 
@@ -58,11 +61,11 @@ public class FormatDialogFragment extends DialogFragment {
             return null;
         }
 
-        String[] mFormats = new String[BarcodeFormat.ALL_FORMATS.size()];
-        boolean[] mCheckedIndices = new boolean[BarcodeFormat.ALL_FORMATS.size()];
+        String[] mFormats = new String[ZXingScannerView.ALL_FORMATS.size()];
+        boolean[] mCheckedIndices = new boolean[ZXingScannerView.ALL_FORMATS.size()];
         int i = 0;
-        for(BarcodeFormat mFormat : BarcodeFormat.ALL_FORMATS) {
-            mFormats[i] = mFormat.getName();
+        for(BarcodeFormat mFormat : ZXingScannerView.ALL_FORMATS) {
+            mFormats[i] = Utils.renameFormat(mFormat.toString());
             if(mSelectedIndices.contains(i)) {
                 mCheckedIndices[i] = true;
             } else {

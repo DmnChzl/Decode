@@ -1,4 +1,4 @@
-package com.doomy.zbar;
+package com.doomy.zxing;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -17,9 +17,6 @@
 
 package com.doomy.decode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
@@ -38,19 +35,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.Result;
+
+import com.doomy.zxing.ZXingScannerView;
+
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
-import com.doomy.zbar.BarcodeFormat;
-import com.doomy.zbar.Result;
-import com.doomy.zbar.ZBarScannerView;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainFragment extends Fragment implements ZBarScannerView.ResultHandler,
+public class MainFragment extends Fragment implements ZXingScannerView.ResultHandler,
 		ResultDialogFragment.ResultDialogListener, FormatDialogFragment.FormatDialogListener {
     
 	private static final String FLASH_STATE = "FLASH_STATE";
     private static final String AUTO_FOCUS_STATE = "AUTO_FOCUS_STATE";
     private static final String SELECTED_FORMATS = "SELECTED_FORMATS";
-    private ZBarScannerView mScannerView;
+    private ZXingScannerView mScannerView;
     private boolean mFlash;
     private boolean mAutoFocus;
     private ArrayList<Integer> mSelectedIndices;
@@ -62,7 +63,7 @@ public class MainFragment extends Fragment implements ZBarScannerView.ResultHand
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        mScannerView = new ZBarScannerView(getActivity());
+        mScannerView = new ZXingScannerView(getActivity());
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -160,7 +161,7 @@ public class MainFragment extends Fragment implements ZBarScannerView.ResultHand
 
     @Override
     public void handleResult(Result rawResult) {
-        showMessageDialog(rawResult.getBarcodeFormat().getName(), rawResult.getContents());
+        showMessageDialog(Utils.renameFormat(rawResult.getBarcodeFormat().toString()), rawResult.getText());
     }
 
     public void showMessageDialog(String title, String message) {
@@ -201,13 +202,13 @@ public class MainFragment extends Fragment implements ZBarScannerView.ResultHand
         List<BarcodeFormat> mFormats = new ArrayList<>();
         if(mSelectedIndices == null || mSelectedIndices.isEmpty()) {
             mSelectedIndices = new ArrayList<>();
-            for(int i = 0; i < BarcodeFormat.ALL_FORMATS.size(); i++) {
+            for(int i = 0; i < ZXingScannerView.ALL_FORMATS.size(); i++) {
                 mSelectedIndices.add(i);
             }
         }
 
         for(int index : mSelectedIndices) {
-            mFormats.add(BarcodeFormat.ALL_FORMATS.get(index));
+            mFormats.add(ZXingScannerView.ALL_FORMATS.get(index));
         }
         if(mScannerView != null) {
             mScannerView.setFormats(mFormats);

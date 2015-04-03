@@ -17,8 +17,6 @@
 
 package com.doomy.core;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
@@ -31,6 +29,8 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+
+import java.util.List;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 

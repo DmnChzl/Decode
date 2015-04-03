@@ -21,13 +21,25 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
+import android.text.style.UnderlineSpan;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+
+import java.util.concurrent.ExecutionException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ResultDialogFragment extends DialogFragment {
 
@@ -35,6 +47,16 @@ public class ResultDialogFragment extends DialogFragment {
         public void onDialogPositiveClick(DialogFragment dialog);
     }
 
+    private static final String TAG = "ResultDialogFragment";
+    private static final String KEY_AUTHORS = "authors";
+    private static final String KEY_AUTHOR_DATA = "author_data";
+    private static final String KEY_DATA = "data";
+    private static final String KEY_ERROR = "error";
+    private static final String KEY_ITEMS = "items";
+    private static final String KEY_NAME = "name";
+    private static final String KEY_TITLE = "title";
+    private static final String KEY_TOTALITEMS = "totalItems";
+    private static final String KEY_VOLUMEINFO = "volumeInfo";
     private String mTitle;
     private String mMessage;
     private ResultDialogListener mListener;
@@ -61,16 +83,46 @@ public class ResultDialogFragment extends DialogFragment {
         TextView mTextViewFormat = (TextView) mView.findViewById(R.id.textViewFormat);
         TextView mTextViewContent = (TextView) mView.findViewById(R.id.textViewContent);
 
-        if(mMessage.substring(0,7).equals("http://")||mMessage.substring(0,8).equals("https://")) {
-            SpannableString mSpannable = new SpannableString(mMessage);
-            Linkify.addLinks(mSpannable, Linkify.WEB_URLS);
-            mTextViewContent.setText(mSpannable);
-            mTextViewContent.setLinkTextColor(getResources().getColor(R.color.greyMaterialDark));
-            mTextViewContent.setMovementMethod(LinkMovementMethod.getInstance());
+        if (mTitle.equals("EAN 13") && mMessage.startsWith("978")) {
+            GetResponseTask mGetResponseTask = new GetResponseTask();
+            mGetResponseTask.execute(mMessage);
+
+            try {
+                if(mGetResponseTask.get().equals("")) {
+                    mTitle = "ISBN";
+                    mTextViewContent.setText(mMessage);
+                } else {
+                    mTitle = "ISBN";
+                    mMessage = mGetResponseTask.get();
+                    SpannableString mSpan = new SpannableString(mMessage);
+                    mSpan.setSpan(new UnderlineSpan(), 0, mMessage.length(), 0);
+                    mTextViewContent.setText(mSpan);
+                    mTextViewContent.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            createURLIntent(makeURLSearch(mMessage));
+                        }
+                    });
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        } else if (mMessage.startsWith("www") || mMessage.startsWith("http://") || mMessage.startsWith("https://")) {
+            SpannableString mSpan = new SpannableString(mMessage);
+            mSpan.setSpan(new UnderlineSpan(), 0, mMessage.length(), 0);
+            mTextViewContent.setText(mSpan);
+            mTextViewContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createURLIntent(mMessage);
+                }
+            });
         } else {
             mTextViewContent.setText(mMessage);
-            mTextViewContent.setTextColor(getResources().getColor(R.color.greyMaterialDark));
         }
+
 
         mTextViewFormat.setText(mTitle);
 
@@ -88,5 +140,67 @@ public class ResultDialogFragment extends DialogFragment {
                 });
 
         return mAlertBuilder.create();
+    }
+
+    private String makeURLSearch(String mySearch) {
+        String mURL = "https://www.google.com/#q=";
+        mySearch = mySearch.replaceAll(" ", "+");
+        String mResult = mURL + mySearch;
+        return mResult;
+    }
+
+    private void createURLIntent(String myURL) {
+        Intent mIntent = new Intent();
+        mIntent.setAction(Intent.ACTION_VIEW);
+        mIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+        mIntent.setData(Uri.parse(myURL));
+        startActivity(mIntent);
+    }
+
+    private class GetResponseTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... myISBN) {
+            ServiceHandler mServiceHandler = new ServiceHandler();
+            String mISBN = "";
+
+            if(myISBN.length == 1) {
+                mISBN = myISBN[0];
+            }
+
+            String mURL = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
+            String mJSONString = mServiceHandler.makeService(mURL+mISBN, ServiceHandler.GET);
+            JSONObject mJSONResponse = null;
+
+            try {
+                mJSONResponse = new JSONObject(mJSONString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String mResult = "";
+
+            try {
+                if (!mJSONResponse.getString(KEY_TOTALITEMS).equals("0")) {
+                    JSONArray mJSONBook = mJSONResponse.getJSONArray(KEY_ITEMS);
+                    for (int i = 0; i < mJSONBook.length(); i++) {
+                        JSONObject mBook = mJSONBook.getJSONObject(i);
+                        JSONObject mVolumeInfo = mBook.getJSONObject(KEY_VOLUMEINFO);
+                        String mTitleBook = mVolumeInfo.getString(KEY_TITLE);
+                        JSONArray mAuthors = mVolumeInfo.getJSONArray(KEY_AUTHORS);
+                        for (int j = 0; j < mAuthors.length(); j++) {
+                            String mAuthorBook = mAuthors.getString(0);
+                            mResult = mAuthorBook + " : " + mTitleBook;
+                        }
+                    }
+                } else {
+                    mResult = "";
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return mResult;
+        }
     }
 }
