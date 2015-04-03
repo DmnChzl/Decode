@@ -29,7 +29,7 @@
 	<string name="developer">Decode pour Android est développé tranquillement en utilisant des logiciels open source.</string>
     <string name="flash">Pas de LED (Flash) détécté !</string>
 	<string name="hello">Bonjour</string>
-    <string name="message">Decode pour Android est un scanner de codes à barres autonome développé en marge de mon projet d\'étude lors de la formation <b>Responsable en Ingénierie des Logiciels</b>. \n\nCette application utilise la librairie ZBar pour la reconnaissance de codes à barres. \n\nEnjoy ;)</string>
+    <string name="message">Decode pour Android est un scanner de codes à barres autonome développé en marge de mon projet d\'étude lors de la formation <b>Responsable en Ingénierie des Logiciels</b>. \n\nCette application utilise la librairie ZXing pour la reconnaissance de codes à barres. \n\nEnjoy ;)</string>
     <string name="result">Résultat</string>
     <string name="vibrate">Vibration</string>
 

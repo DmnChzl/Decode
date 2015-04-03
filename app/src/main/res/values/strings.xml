@@ -32,7 +32,7 @@
     <string name="flash">No LED (Flash) detects !</string>
     <string name="format" translatable="false">Format</string>
 	<string name="hello">Hello</string>
-    <string name="message">Decode for Android is a standalone barcode scanner developed in the margins of my study project at the <b>Software Engineering Manager</b> training. \n\nThis application uses the ZBar library for recognizing barcodes. \n\nEnjoy ;)</string>
+    <string name="message">Decode for Android is a standalone barcode scanner developed in the margins of my study project at the <b>Software Engineering Manager</b> training. \n\nThis application uses the ZXing library for recognizing barcodes. \n\nEnjoy ;)</string>
     <string name="okay" translatable="false">OK</string>
     <string name="result">Result</string>
     <string name="vibrate">Vibrate</string>
