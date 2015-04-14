@@ -8,8 +8,8 @@ android {
         applicationId "com.doomy.decode"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.3"
     }
     buildTypes {
         release {
@@ -24,4 +24,5 @@ dependencies {
     compile project(':zxing')
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.getbase:floatingactionbutton:1.9.0'
+    compile 'com.heinrichreimersoftware.materialdrawer:library:1.4.2'
 }

@@ -17,18 +17,14 @@
 
 package com.doomy.decode;
 
-import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +38,9 @@ import com.doomy.zxing.ZXingScannerView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainFragment extends Fragment implements ZXingScannerView.ResultHandler,
@@ -52,28 +50,59 @@ public class MainFragment extends Fragment implements ZXingScannerView.ResultHan
     private static final String AUTO_FOCUS_STATE = "AUTO_FOCUS_STATE";
     private static final String SELECTED_FORMATS = "SELECTED_FORMATS";
     private ZXingScannerView mScannerView;
+    private DataBase mDB;
+    private boolean mMedia;
     private boolean mFlash;
     private boolean mAutoFocus;
     private ArrayList<Integer> mSelectedIndices;
+    private FloatingActionButton mFABHistory;
     private FloatingActionButton mFABSettings;
     private FloatingActionButton mFABFlash;
     private FloatingActionButton mFABFocus;
-    private FloatingActionButton mFABAbout;
+    private ImageView mImageViewPlay;
+    private ImageView mImageViewPause;
+    private ImageView mImageViewState;
     private SharedPreferences mPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         mScannerView = new ZXingScannerView(getActivity());
 
+        mDB = new DataBase(getActivity());
+
         mPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         final View mView = inflater.inflate(R.layout.activity_main, null);
 
-        mFABAbout = (FloatingActionButton) mView.findViewById(R.id.actionAbout);
-        mFABAbout.setOnClickListener(new View.OnClickListener() {
+        mImageViewPlay = (ImageView) mView.findViewById(R.id.imageViewPlay);
+        mImageViewPause = (ImageView) mView.findViewById(R.id.imageViewPause);
+
+        mMedia = true;
+
+        mImageViewState = (ImageView) mView.findViewById(R.id.imageViewState);
+        mImageViewState.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openAboutDialog();
+                if(mMedia) {
+                    mImageViewPause.setAlpha(1f);
+                    mImageViewPause.animate().alpha(0f).setDuration(1000);
+                    mScannerView.stopCamera();
+                    mMedia = false;
+                } else {
+                    mImageViewPlay.setAlpha(1f);
+                    mImageViewPlay.animate().alpha(0f).setDuration(1000);
+                    mScannerView.startCamera();
+                    mMedia = true;
+                }
+            }
+        });
+
+        mFABHistory = (FloatingActionButton) mView.findViewById(R.id.actionHistory);
+        mFABHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntent = new Intent(getActivity(), ScanActivity.class);
+                getActivity().startActivity(mIntent);
             }
         });
 
@@ -145,6 +174,7 @@ public class MainFragment extends Fragment implements ZXingScannerView.ResultHan
     @Override
     public void onResume() {
         super.onResume();
+        mMedia = true;
         mScannerView.setResultHandler(this);
         mScannerView.startCamera();
         mScannerView.setFlash(mFlash);
@@ -164,8 +194,13 @@ public class MainFragment extends Fragment implements ZXingScannerView.ResultHan
         showMessageDialog(Utils.renameFormat(rawResult.getBarcodeFormat().toString()), rawResult.getText());
     }
 
-    public void showMessageDialog(String title, String message) {
-        DialogFragment mFragment = ResultDialogFragment.newInstance(title, message, this);
+    public void showMessageDialog(String myTitle, String myMessage) {
+        SimpleDateFormat mDate = new SimpleDateFormat("dd/MM/yyyy");
+        String myDate = mDate.format(new Date());
+        Log.d("maDate", myDate);
+        Scan mScan = new Scan(myTitle, myMessage, myDate);
+        mDB.addOne(mScan);
+        DialogFragment mFragment = ResultDialogFragment.newInstance(myTitle, myMessage, this);
         mFragment.show(getActivity().getFragmentManager(), "result");
     }
 
@@ -218,47 +253,9 @@ public class MainFragment extends Fragment implements ZXingScannerView.ResultHan
     @Override
     public void onPause() {
         super.onPause();
+        mMedia = false;
         mScannerView.stopCamera();
         closeMessageDialog();
         closeFormatsDialog();
-    }
-
-    // Create AlertDialog for the about view
-    private void openAboutDialog() {
-        LayoutInflater mLayoutInflater = LayoutInflater.from(getActivity());
-        View mView = mLayoutInflater.inflate(R.layout.view_about, null);
-
-        ImageView mImageViewMrDoomy = (ImageView) mView.findViewById(R.id.imageViewMrDoomy);
-        ImageView mImageViewStudio = (ImageView) mView.findViewById(R.id.imageViewStudio);
-        ImageView mImageViewGitHub = (ImageView) mView.findViewById(R.id.imageViewGitHub);
-        Drawable mMrDoomy = mImageViewMrDoomy.getDrawable();
-        Drawable mStudio = mImageViewStudio.getDrawable();
-        Drawable mGitHub = mImageViewGitHub.getDrawable();
-        mMrDoomy.setColorFilter(getResources().getColor(R.color.greenDark), PorterDuff.Mode.SRC_ATOP);
-        mStudio.setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_ATOP);
-        mGitHub.setColorFilter(getResources().getColor(R.color.greyMaterialDark), PorterDuff.Mode.SRC_ATOP);
-
-        mImageViewGitHub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent mIntent = new Intent();
-                mIntent.setAction(Intent.ACTION_VIEW);
-                mIntent.addCategory(Intent.CATEGORY_BROWSABLE);
-                mIntent.setData(Uri.parse(getString(R.string.url)));
-                startActivity(mIntent);
-            }
-        });
-
-        AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(getActivity(), Utils.setThemeDialog());
-
-        mAlertDialog.setTitle(getString(R.string.about));
-        mAlertDialog.setView(mView);
-        mAlertDialog.setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        mAlertDialog.show();
     }
 }

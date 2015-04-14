@@ -21,7 +21,7 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content">
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/actionSettings"
@@ -35,7 +35,7 @@
         fab:fab_icon="@drawable/ic_settings"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_marginEnd="16dp"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -46,13 +46,13 @@
         android:layout_alignBottom="@+id/actionSettings">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/actionAbout"
+            android:id="@+id/actionHistory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_size="mini"
             fab:fab_colorNormal="@color/green"
             fab:fab_colorPressed="@color/greenDark"
-            fab:fab_icon="@drawable/ic_about"
+            fab:fab_icon="@drawable/ic_history"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"/>
 
@@ -70,7 +70,7 @@
         fab:fab_icon="@drawable/ic_flash_off"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_marginEnd="16dp"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -92,5 +92,30 @@
             android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageViewState"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <ImageView
+        android:id="@+id/imageViewPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_play"
+        android:alpha="0"/>
+
+    <ImageView
+        android:id="@+id/imageViewPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_pause"
+        android:alpha="0"/>
 
 </RelativeLayout>

@@ -128,8 +128,7 @@ public class ResultDialogFragment extends DialogFragment {
 
         AlertDialog.Builder mAlertBuilder = new AlertDialog.Builder(getActivity(), Utils.setThemeDialog());
         
-		mAlertBuilder.setTitle(getString(R.string.result))
-                .setView(mView)
+		mAlertBuilder.setView(mView)
 				.setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {

@@ -17,15 +17,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".ScanActivity">
 
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="size_shape">200dp</dimen>
-    <dimen name="size_image">125dp</dimen>
-    <dimen name="image_widht">285dp</dimen>
-    <dimen name="image_height">150dp</dimen>
-    <dimen name="size_github">60dp</dimen>
+    <item android:id="@+id/action_search" android:actionViewClass="android.widget.SearchView"
+          android:title="@string/search" android:icon="@drawable/ic_search"
+          android:showAsAction="collapseActionView|ifRoom" />
 
-</resources>
+    <item android:id="@+id/action_clear" android:title="@string/clear"
+          android:icon="@drawable/ic_delete" android:showAsAction="always" />
+
+    <item android:id="@+id/action_about" android:title="@string/about"
+          android:orderInCategory="100" android:showAsAction="never" />
+
+</menu>
