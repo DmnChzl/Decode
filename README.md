@@ -8,6 +8,7 @@ This includes features like :
 - Get the text or number values in the barcode
 - Get url in the barcode
 - Get the author and title of book
+- Browse history
 
 #Permission
 
