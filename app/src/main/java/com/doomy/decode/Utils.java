@@ -26,23 +26,6 @@ public class Utils {
      *
      * @return The style theme of MainActivity.
      */
-    public static int setThemeBar() {
-
-        int mTheme;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mTheme = R.style.Material;
-        } else {
-            mTheme = R.style.Holo;
-        }
-        return mTheme;
-    }
-
-    /**
-     * Check the version of device.
-     *
-     * @return The style theme of MainActivity.
-     */
     public static int setThemeVersion() {
 
         int mTheme;

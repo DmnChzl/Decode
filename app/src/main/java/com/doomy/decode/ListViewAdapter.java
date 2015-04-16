@@ -61,7 +61,7 @@ public class ListViewAdapter extends ArrayAdapter<Scan> implements Filterable {
 
     public long getItemId(int position)
     {
-        return mItems.get(position).hashCode();
+        return mItems.get(position).getID();
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ListViewAdapter extends ArrayAdapter<Scan> implements Filterable {
         }
         if (mHolder.myDate != null && null != mScan.getDate()
                 && mScan.getDate().trim().length() > 0) {
-            mHolder.myFormat.setText(Html.fromHtml(mScan.getDate()));
+            mHolder.myDate.setText(Html.fromHtml(mScan.getDate()));
         }
         if (mHolder.myContent != null && null != mScan.getContent()
                 && mScan.getContent().trim().length() > 0) {

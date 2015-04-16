@@ -17,13 +17,30 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-      xmlns:app="http://schemas.android.com/apk/res-auto" tools:context=".ScanActivity">
+<resources>
 
-    <item android:id="@+id/action_clear" android:title="@string/clear"
-          android:icon="@drawable/ic_delete" app:showAsAction="ifRoom" />
+    <string-array name="nav_drawer_items" translatable="false">
+        <item>@string/all</item>
+        <item>Aztec</item>
+        <item>UPC A</item>
+        <item>UPC E</item>
+        <item>EAN 8</item>
+        <item>EAN 13</item>
+        <item>ISBN</item>
+        <item>RSS 14</item>
+        <item>Code 39</item>
+        <item>Code 93</item>
+        <item>Code 128</item>
+        <item>ITF</item>
+        <item>Codabar</item>
+        <item>QR Code</item>
+        <item>Data Matrix</item>
+        <item>PDF 417</item>
+    </string-array>
 
-    <item android:id="@+id/action_about" android:title="@string/about"
-          android:orderInCategory="100" app:showAsAction="never" />
+    <array name="nav_drawer_icons">
+        <item>@drawable/all_selector</item>
+        <item>@drawable/item_selector</item>
+    </array>
 
-</menu>
+</resources>

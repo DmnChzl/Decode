@@ -17,13 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-      xmlns:app="http://schemas.android.com/apk/res-auto" tools:context=".ScanActivity">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/action_clear" android:title="@string/clear"
-          android:icon="@drawable/ic_delete" app:showAsAction="ifRoom" />
+    <item android:drawable="@drawable/ic_all" android:state_activated="false"/>
+    <item android:drawable="@drawable/ic_all_selected" android:state_activated="true"/>
+    <item android:drawable="@drawable/ic_all_selected" android:state_selected="true"/>
 
-    <item android:id="@+id/action_about" android:title="@string/about"
-          android:orderInCategory="100" app:showAsAction="never" />
-
-</menu>
+</selector>

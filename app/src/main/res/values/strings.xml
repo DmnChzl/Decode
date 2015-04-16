@@ -21,6 +21,7 @@
 
     <string name="app_name" translatable="false">Decode</string>
     <string name="about">About</string>
+    <string name="all">All</string>
     <string name="autofocus">AutoFocus</string>
     <string name="autofocus_on">AutoFocus enabled</string>
     <string name="autofocus_off">AutoFocus disabled</string>
@@ -33,13 +34,18 @@
     <string name="copyright" translatable="false">Copyright &#169; 2015 Damien Chazoule</string>
     <string name="developer">Decode for Android devices is built peacefully using open source software.</string>
     <string name="done">Emptied history</string>
+    <string name="drawer_close" translatable="false">Drawer close</string>
+    <string name="drawer_open" translatable="false">Drawer open</string>
     <string name="empty">Clear history ?</string>
+    <string name="filter">Filter</string>
     <string name="flash">No LED (Flash) detects !</string>
     <string name="format" translatable="false">Format</string>
 	<string name="hello">Hello</string>
     <string name="history">History</string>
+    <string name="info" translatable="false">Informations</string>
     <string name="message">Decode for Android is a standalone barcode scanner developed in the margins of my study project at the <b>Software Engineering Manager</b> training. \n\nThis application uses the ZXing library for recognizing barcodes. \n\nEnjoy ;)</string>
-    <string name="none">No scan found</string>
+    <string name="no">No</string>
+    <string name="no_barcode">in history</string>
     <string name="okay" translatable="false">OK</string>
     <string name="result">Result</string>
     <string name="search">Search&#8230;</string>

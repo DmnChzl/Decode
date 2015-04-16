@@ -19,7 +19,10 @@
 
 <resources>
 
-    <style name="Holo" parent="android:Theme.Holo.Light.DarkActionBar"/>
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/greenDark</item>
+    </style>
 
     <style name="HoloTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:windowActionBar">false</item>
@@ -28,11 +31,6 @@
 
     <style name="HoloDialog" parent="android:Theme.Holo.Light.Dialog">
         <item name="android:windowBackground">@color/greyMaterialLight</item>
-    </style>
-
-    <style name="Material" parent="android:Theme.Material.Light.DarkActionBar">
-        <item name="android:colorPrimary">@color/green</item>
-        <item name="android:colorPrimaryDark">@color/greenDark</item>
     </style>
 
     <style name="MaterialTheme" parent="android:Theme.Material.Light.DarkActionBar">

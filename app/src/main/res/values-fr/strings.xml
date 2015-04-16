@@ -20,6 +20,7 @@
 <resources>
 
     <string name="about">À propos</string>
+    <string name="all">Tous</string>
     <string name="autofocus">Mise au point automatique</string>
     <string name="autofocus_on">Mise au point automatique activé</string>
     <string name="autofocus_off">Mise au point automatique désactivé</string>
@@ -32,11 +33,13 @@
 	<string name="developer">Decode pour Android est développé tranquillement en utilisant des logiciels open source.</string>
     <string name="done">Historique vidé</string>
     <string name="empty">Vider l\'historique ?</string>
+    <string name="filter">Filtrer</string>
     <string name="flash">Pas de LED (Flash) détécté !</string>
 	<string name="hello">Bonjour</string>
     <string name="history">Historique</string>
     <string name="message">Decode pour Android est un scanner de codes à barres autonome développé en marge de mon projet d\'étude lors de la formation <b>Responsable en Ingénierie des Logiciels</b>. \n\nCette application utilise la librairie ZXing pour la reconnaissance de codes à barres. \n\nEnjoy ;)</string>
-    <string name="none">Aucun scan trouvé</string>
+    <string name="no">Aucun</string>
+    <string name="no_barcode">dans l\'historique</string>
     <string name="result">Résultat</string>
     <string name="search">Rechercher&#8230;</string>
     <string name="vibrate">Vibration</string>

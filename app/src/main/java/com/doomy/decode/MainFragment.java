@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +37,7 @@ import com.doomy.zxing.ZXingScannerView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MainFragment extends Fragment implements ZXingScannerView.ResultHandler,
@@ -50,7 +47,6 @@ public class MainFragment extends Fragment implements ZXingScannerView.ResultHan
     private static final String AUTO_FOCUS_STATE = "AUTO_FOCUS_STATE";
     private static final String SELECTED_FORMATS = "SELECTED_FORMATS";
     private ZXingScannerView mScannerView;
-    private DataBase mDB;
     private boolean mMedia;
     private boolean mFlash;
     private boolean mAutoFocus;
@@ -67,8 +63,6 @@ public class MainFragment extends Fragment implements ZXingScannerView.ResultHan
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         mScannerView = new ZXingScannerView(getActivity());
-
-        mDB = new DataBase(getActivity());
 
         mPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -195,12 +189,7 @@ public class MainFragment extends Fragment implements ZXingScannerView.ResultHan
     }
 
     public void showMessageDialog(String myTitle, String myMessage) {
-        SimpleDateFormat mDate = new SimpleDateFormat("dd/MM/yyyy");
-        String myDate = mDate.format(new Date());
-        Log.d("maDate", myDate);
-        Scan mScan = new Scan(myTitle, myMessage, myDate);
-        mDB.addOne(mScan);
-        DialogFragment mFragment = ResultDialogFragment.newInstance(myTitle, myMessage, this);
+        DialogFragment mFragment = ResultDialogFragment.newInstance(myTitle, myMessage, true, this);
         mFragment.show(getActivity().getFragmentManager(), "result");
     }
 

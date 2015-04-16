@@ -25,16 +25,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
 import android.text.style.UnderlineSpan;
-import android.text.util.Linkify;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import org.json.JSONArray;
@@ -49,27 +47,28 @@ public class ResultDialogFragment extends DialogFragment {
 
     private static final String TAG = "ResultDialogFragment";
     private static final String KEY_AUTHORS = "authors";
-    private static final String KEY_AUTHOR_DATA = "author_data";
-    private static final String KEY_DATA = "data";
-    private static final String KEY_ERROR = "error";
     private static final String KEY_ITEMS = "items";
-    private static final String KEY_NAME = "name";
     private static final String KEY_TITLE = "title";
     private static final String KEY_TOTALITEMS = "totalItems";
     private static final String KEY_VOLUMEINFO = "volumeInfo";
+    private DataBase mDB;
     private String mTitle;
     private String mMessage;
+    private boolean mKey;
     private ResultDialogListener mListener;
 
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setRetainInstance(true);
+
+        mDB = new DataBase(getActivity());
     }
 
-    public static ResultDialogFragment newInstance(String title, String message, ResultDialogListener listener) {
+    public static ResultDialogFragment newInstance(String title, String message, boolean key, ResultDialogListener listener) {
         ResultDialogFragment mFragment = new ResultDialogFragment();
         mFragment.mTitle = title;
         mFragment.mMessage = message;
+        mFragment.mKey = key;
         mFragment.mListener = listener;
         return mFragment;
     }
@@ -109,6 +108,16 @@ public class ResultDialogFragment extends DialogFragment {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
+        } else if (mTitle.equals("ISBN")) {
+            SpannableString mSpan = new SpannableString(mMessage);
+            mSpan.setSpan(new UnderlineSpan(), 0, mMessage.length(), 0);
+            mTextViewContent.setText(mSpan);
+            mTextViewContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createURLIntent(makeURLSearch(mMessage));
+                }
+            });
         } else if (mMessage.startsWith("www") || mMessage.startsWith("http://") || mMessage.startsWith("https://")) {
             SpannableString mSpan = new SpannableString(mMessage);
             mSpan.setSpan(new UnderlineSpan(), 0, mMessage.length(), 0);
@@ -123,12 +132,19 @@ public class ResultDialogFragment extends DialogFragment {
             mTextViewContent.setText(mMessage);
         }
 
+        if (mKey) {
+            SimpleDateFormat mDate = new SimpleDateFormat("dd/MM/yyyy");
+            String myDate = mDate.format(new Date());
+            Scan mScan = new Scan(mTitle, mMessage, myDate);
+            mDB.addOne(mScan);
+        }
 
         mTextViewFormat.setText(mTitle);
 
         AlertDialog.Builder mAlertBuilder = new AlertDialog.Builder(getActivity(), Utils.setThemeDialog());
         
-		mAlertBuilder.setView(mView)
+		mAlertBuilder.setTitle(getString(R.string.info))
+                .setView(mView)
 				.setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {

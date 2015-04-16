@@ -17,50 +17,75 @@
 
 package com.doomy.decode;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScanActivity extends Activity implements OnItemClickListener, ResultDialogFragment.ResultDialogListener {
+public class ScanActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, ResultDialogFragment.ResultDialogListener {
 
     // Declare your view and variables
     private static final String TAG = "ScanActivity";
     private DataBase mDB;
     private ListView mListView;
-    private ListViewAdapter mAdapter;
+    private ListViewAdapter mListViewAdapter;
     private List<Scan> mList = new ArrayList<>();
     private RelativeLayout mRelativeLayout;
+    private ListView mDrawerList;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private String mActivityTitle;
+    private String[] mNavMenuTitles;
+    private TypedArray mNavMenuIcons;
+    private ArrayList<Item> mNavDrawer;
+    private DrawerAdapter mDrawerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTheme(Utils.setThemeBar());
-
         setContentView(R.layout.listview);
+
+        mNavMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
+        mNavMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
+
+        mDrawerList = (ListView)findViewById(R.id.listViewDrawer);
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+
+        int mWidth = getResources().getDisplayMetrics().widthPixels/2;
+        DrawerLayout.LayoutParams mParams = (android.support.v4.widget.DrawerLayout.LayoutParams) mDrawerList.getLayoutParams();
+        mParams.width = mWidth;
+        mDrawerList.setLayoutParams(mParams);
+
+        mActivityTitle = getTitle().toString();
+
+        addDrawerItems();
+        setupDrawer();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         mDB = new DataBase(this);
 
@@ -77,12 +102,95 @@ public class ScanActivity extends Activity implements OnItemClickListener, Resul
             mRelativeLayout.setAlpha(1);
         }
 
-        mAdapter = new ListViewAdapter(
-                ScanActivity.this, R.layout.activity_scan, mList);
-        mListView.setAdapter(mAdapter);
+        mListViewAdapter = new ListViewAdapter(ScanActivity.this, R.layout.activity_scan, mList);
+        mListView.setAdapter(mListViewAdapter);
     }
 
-    public void deleteRows() {
+    private void addDrawerItems() {
+
+        mNavDrawer = new ArrayList<>();
+
+        mNavDrawer.add(new Item(mNavMenuTitles[0], mNavMenuIcons.getResourceId(0, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[1], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[2], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[3], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[4], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[5], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[6], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[7], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[8], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[9], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[10], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[11], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[12], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[13], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[14], mNavMenuIcons.getResourceId(1, -1)));
+        mNavDrawer.add(new Item(mNavMenuTitles[15], mNavMenuIcons.getResourceId(1, -1)));
+
+        mNavMenuIcons.recycle();
+
+        mDrawerAdapter = new DrawerAdapter(getApplicationContext(), mNavDrawer);
+        mDrawerList.setAdapter(mDrawerAdapter);
+
+        mDrawerList.setItemChecked(0, true);
+
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0 : filterHistory("");
+                        break;
+                    case 1 : filterHistory("Aztec");
+                        break;
+                    case 2 : filterHistory("UPC A");
+                        break;
+                    case 3 : filterHistory("UPC E");
+                        break;
+                    case 4 : filterHistory("EAN 8");
+                        break;
+                    case 5 : filterHistory("EAN 13");
+                        break;
+                    case 6 : filterHistory("ISBN");
+                        break;
+                    case 7 : filterHistory("RSS 14");
+                        break;
+                    case 8 : filterHistory("Code 39");
+                        break;
+                    case 9 : filterHistory("Code 93");
+                        break;
+                    case 10 : filterHistory("Code 128");
+                        break;
+                    case 11 : filterHistory("ITF");
+                        break;
+                    case 12 : filterHistory("Codabar");
+                        break;
+                    case 13 : filterHistory("QR Code");
+                        break;
+                    case 14 : filterHistory("Data Matrix");
+                        break;
+                    case 15 : filterHistory("PDF 417");
+                        break;
+                }
+                mDrawerLayout.closeDrawers();
+            }
+        });
+    }
+
+    private void filterHistory(String mFormat) {
+        mListViewAdapter.getFilter().filter(mFormat);
+
+        int mCount = 0;
+        for(Scan mScan : mList) {
+            if (mScan.getFormat().contains(mFormat)) {
+                mCount++;
+            }
+        }
+        if (mList.size() > 0 && mCount == 0) {
+            Toast.makeText(ScanActivity.this, getString(R.string.no) + " " + mFormat + " " + getString(R.string.no_barcode), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void deleteRows() {
 
         Toast.makeText(this, getString(R.string.done), Toast.LENGTH_LONG).show();
 
@@ -90,37 +198,53 @@ public class ScanActivity extends Activity implements OnItemClickListener, Resul
 
         mList.clear();
 
-        mAdapter = new ListViewAdapter(ScanActivity.this, R.layout.activity_scan, mList);
-        mListView.setAdapter(mAdapter);
+        mListViewAdapter = new ListViewAdapter(ScanActivity.this, R.layout.activity_scan, mList);
+        mListView.setAdapter(mListViewAdapter);
 
         mDB.deleteAll();
 
         mRelativeLayout.setAlpha(1);
     }
 
+    private void setupDrawer() {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle(getString(R.string.filter));
+                invalidateOptionsMenu(); // Creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(mActivityTitle);
+                invalidateOptionsMenu(); // Creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_search, menu);
-
-        SearchManager mSearchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-
-        mSearchView.setSearchableInfo(mSearchManager.getSearchableInfo(getComponentName()));
-        mSearchView.setIconifiedByDefault(true);
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                mAdapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                mAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-
         return true;
     }
 
@@ -128,14 +252,11 @@ public class ScanActivity extends Activity implements OnItemClickListener, Resul
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         MenuItem mItemClear = menu.findItem(R.id.action_clear);
-        MenuItem mItemSearch = menu.findItem(R.id.action_search);
 
         if (mList.size() == 0) {
             mItemClear.setVisible(false);
-            mItemSearch.setVisible(false);
         } else {
             mItemClear.setVisible(true);
-            mItemSearch.setVisible(true);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -156,6 +277,10 @@ public class ScanActivity extends Activity implements OnItemClickListener, Resul
         }
         if (id == R.id.action_clear) {
             openDeleteDialog();
+            return true;
+        }
+        // Activate the navigation drawer toggle
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -179,7 +304,7 @@ public class ScanActivity extends Activity implements OnItemClickListener, Resul
         String myFormat = myContact.getFormat().toString();
         String myContent = myContact.getContent().toString();
 
-        DialogFragment mFragment = ResultDialogFragment.newInstance(myFormat, myContent, this);
+        DialogFragment mFragment = ResultDialogFragment.newInstance(myFormat, myContent, false, this);
         mFragment.show(ScanActivity.this.getFragmentManager(), "result");
     }
 
