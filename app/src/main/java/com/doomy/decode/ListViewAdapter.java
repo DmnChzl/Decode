@@ -28,7 +28,9 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ListViewAdapter extends ArrayAdapter<Scan> implements Filterable {
@@ -85,20 +87,31 @@ public class ListViewAdapter extends ArrayAdapter<Scan> implements Filterable {
         mScan = mItems.get(position);
 
         mHolder.myFormat = (TextView) mView.findViewById(R.id.textViewFormat);
-        mHolder.myDate = (TextView) mView.findViewById(R.id.textViewDate);
         mHolder.myContent = (TextView) mView.findViewById(R.id.textViewContent);
+        mHolder.myDate = (TextView) mView.findViewById(R.id.textViewDate);
 
         if (mHolder.myFormat != null && null != mScan.getFormat()
                 && mScan.getFormat().trim().length() > 0) {
             mHolder.myFormat.setText(Html.fromHtml(mScan.getFormat()));
         }
-        if (mHolder.myDate != null && null != mScan.getDate()
-                && mScan.getDate().trim().length() > 0) {
-            mHolder.myDate.setText(Html.fromHtml(mScan.getDate()));
-        }
         if (mHolder.myContent != null && null != mScan.getContent()
                 && mScan.getContent().trim().length() > 0) {
             mHolder.myContent.setText(Html.fromHtml(mScan.getContent()));
+        }
+        if (mHolder.myDate != null && null != mScan.getDate()
+                && mScan.getDate().trim().length() > 0) {
+
+            String mCompleteDate = mScan.getDate();
+            String[] mSeparatedDate = mCompleteDate.split("-");
+            SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String mDate = mDateFormat.format(new Date());
+
+            if (mCompleteDate.startsWith(mDate)) {
+                mHolder.myDate.setText(Html.fromHtml(mSeparatedDate[1]));
+            } else {
+                mHolder.myDate.setText(Html.fromHtml(mSeparatedDate[0]));
+            }
+
         }
         return mView;
     }

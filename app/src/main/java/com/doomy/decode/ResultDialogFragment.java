@@ -109,15 +109,19 @@ public class ResultDialogFragment extends DialogFragment {
                 e.printStackTrace();
             }
         } else if (mTitle.equals("ISBN")) {
-            SpannableString mSpan = new SpannableString(mMessage);
-            mSpan.setSpan(new UnderlineSpan(), 0, mMessage.length(), 0);
-            mTextViewContent.setText(mSpan);
-            mTextViewContent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    createURLIntent(makeURLSearch(mMessage));
-                }
-            });
+            if (!mMessage.startsWith("978")) {
+                SpannableString mSpan = new SpannableString(mMessage);
+                mSpan.setSpan(new UnderlineSpan(), 0, mMessage.length(), 0);
+                mTextViewContent.setText(mSpan);
+                mTextViewContent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        createURLIntent(makeURLSearch(mMessage));
+                    }
+                });
+            } else {
+                mTextViewContent.setText(mMessage);
+            }
         } else if (mMessage.startsWith("www") || mMessage.startsWith("http://") || mMessage.startsWith("https://")) {
             SpannableString mSpan = new SpannableString(mMessage);
             mSpan.setSpan(new UnderlineSpan(), 0, mMessage.length(), 0);
@@ -133,9 +137,9 @@ public class ResultDialogFragment extends DialogFragment {
         }
 
         if (mKey) {
-            SimpleDateFormat mDate = new SimpleDateFormat("dd/MM/yyyy");
-            String myDate = mDate.format(new Date());
-            Scan mScan = new Scan(mTitle, mMessage, myDate);
+            SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy-HH:mm");
+            String mDate = mDateFormat.format(new Date());
+            Scan mScan = new Scan(mTitle, mMessage, mDate);
             mDB.addOne(mScan);
         }
 
