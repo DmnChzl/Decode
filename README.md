@@ -10,31 +10,31 @@ This includes features like :
 - Get the author and title of book
 - Browse history
 
-#Permission
+# Permissions
 
 - android.permission.CAMERA
 - android.permission.INTERNET
 
-#Dependencies
+# Dependencies
 
 - com.android.support:appcompat-v7:22.0.0
 - com.getbase:floatingactionbutton:1.9.0
 - com.google.zxing:core:3.2.0
 
-#QR Code
+# QR Code
 
 <a href="https://play.google.com/store/apps/details?id=com.doomy.decode">
   <img alt="QR Code"
        src="https://raw.githubusercontent.com/MrDoomy/Decode/master/dev/images/qrcode.png" />
 </a>
 
-#Screenshots
+# Screenshots
 
 ![Image](https://raw.githubusercontent.com/MrDoomy/Decode/master/dev/screenshots/hammerhead_1_small.png)
 ![Image](https://raw.githubusercontent.com/MrDoomy/Decode/master/dev/screenshots/hammerhead_2_small.png)
 ![Image](https://raw.githubusercontent.com/MrDoomy/Decode/master/dev/screenshots/flo_1_small.png)
 
-#ZXing
+# ZXing
 
 ZXing allows recognition of barcodes. This library is fully open source. ZXing supports formats :
 - Aztec
@@ -52,7 +52,7 @@ ZXing allows recognition of barcodes. This library is fully open source. ZXing s
 - Data Matrix
 - PDF 417
 
-#License
+# License
 
     Copyright (C) 2015 Damien Chazoule
 
